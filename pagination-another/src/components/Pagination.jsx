@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Pagination = () => {
-  const pages = 50;
-
+const Pagination = ({ pages = 10, setCurrentPage }) => {
   const numberOfPages = [];
 
   for (let i = 1; i <= pages; i++) {
@@ -21,10 +19,14 @@ const Pagination = () => {
 
     if (currentButton >= 1 && currentButton <= 3) {
       tempNumberOfPages = [1, 2, 3, 4, dotsInitial, numberOfPages.length];
-    } else if (currentButton === 4) {
+    }
+    //
+    else if (currentButton === 4) {
       const sliced = numberOfPages.slice(0, 5);
       tempNumberOfPages = [...sliced, dotsInitial, numberOfPages.length];
-    } else if (currentButton > 4 && currentButton < numberOfPages.length - 2) {
+    }
+    //
+    else if (currentButton > 4 && currentButton < numberOfPages.length - 2) {
       // from 5 to 8 -> (10 - 2)
       // sliced1 (5-2, 5) -> [4,5]
       // sliced1 (5, 5+1) -> [6]
@@ -39,28 +41,37 @@ const Pagination = () => {
         dotsRight,
         numberOfPages.length,
       ];
-    } else if (currentButton > numberOfPages.length - 3) {
+    }
+    //
+    else if (currentButton > numberOfPages.length - 3) {
       // > 7
       // slice(10-4)
       const sliced = numberOfPages.slice(numberOfPages.length - 4);
       tempNumberOfPages = [1, dotsLeft, ...sliced];
-    } else if (currentButton === dotsInitial) {
+    }
+    //
+    else if (currentButton === dotsInitial) {
       // [1, 2, 3, 4, "...", 10].length = 6 - 3  = 3
       // arrOfCurrButtons[3] = 4 + 1 = 5
       // or
       // [1, 2, 3, 4, 5, "...", 10].length = 7 - 3 = 4
       // [1, 2, 3, 4, 5, "...", 10][4] = 5 + 1 = 6
       setCurrentButton(arrOfCurrentButtons[arrOfCurrentButtons.length - 3] + 1);
-    } else if (currentButton === dotsRight) {
+    }
+    //
+    else if (currentButton === dotsRight) {
       setCurrentButton(arrOfCurrentButtons[3] + 2);
-    } else if (currentButton === dotsLeft) {
+    }
+    //
+    else if (currentButton === dotsLeft) {
       setCurrentButton(arrOfCurrentButtons[3] - 2);
     }
+
     setArrOfCurrentButtons(tempNumberOfPages);
+    setCurrentPage(currentButton);
   }, [currentButton]);
   return (
     <div>
-      <h1>Pagination</h1>
       <div className="pagination-container">
         <a
           href="#"
