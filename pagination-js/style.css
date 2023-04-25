@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-container {
+  width: 100%;
+}
+
+Button {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid black;
+}
+
+Button:active {
+  color: white;
+  background-color: #007bff;
+  border: 1px solid #7cbddb;
+}
+
+.currentButtonActive {
+  color: white;
+  background-color: #007bff;
+  border: 1px solid #7cbddb;
+}
