@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 
 .container {
@@ -12,13 +13,31 @@
   align-items: center;
 }
 
+.posts-container {
+  margin: 0 auto;
+  margin-bottom: 5rem;
+  width: 800px;
+  height: 80vh;
+  border: 1px solid black;
+  overflow-y: auto;
+}
+
+.posts-container li {
+  border: 1px solid orange;
+  margin: 0 auto;
+
+  height: 2rem;
+  padding: 10px;
+}
+
 .pagination-container {
-  width: 100%;
+  position: fixed;
+  bottom: 5%;
 }
 
 Button {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   cursor: pointer;
   background-color: transparent;
   border: 1px solid black;

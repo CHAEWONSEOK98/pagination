@@ -1,39 +1,6 @@
 'use strict';
 
 const postsContainer = document.querySelector('.posts-container');
-const posts = [];
-
-let data = async () =>
-  (await fetch('https://jsonplaceholder.typicode.com/posts')).json();
-data()
-  .then((res) => {
-    res.forEach((val) => {
-      postsContainer.insertAdjacentHTML(
-        'beforeend',
-        `
-    <ul>
-      <li>${val.id}</li>
-    </ul>
-  `
-      );
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-// fetch('https://jsonplaceholder.typicode.com/posts')
-//   .then((response) => response.json())
-//   .then((data) => {
-//     data.map((val) => {
-//       let jsonData = JSON.stringify(val.title);
-//       posts.push(jsonData);
-//     });
-//   })
-//   .catch((error) => console.log(error));
-
-// console.log(posts);
-
 const paginationContainer = document.querySelector('.pagination-container');
 const allButtons = document.querySelector('.pageButton');
 
@@ -46,10 +13,10 @@ for (let i = 1; i <= totalPages; i++) {
 }
 
 let page = 1;
-const limit = 10;
+const limit = 5;
 
-const startIndex = (page - 1) * limit;
-const endIndex = page * limit;
+let startIndex = (page - 1) * limit;
+let endIndex = page * limit;
 
 const result = pageButtons.slice(startIndex, endIndex);
 
@@ -78,19 +45,40 @@ function buttonSetting() {
   paginationContainer.appendChild(last);
 }
 
-paginationContainer.addEventListener('click', (event) => {
-  currentButton = parseInt(event.target.innerText);
-  if (currentButton === parseInt(event.target.innerText)) {
-    console.log('aa');
-  }
-  //   if (currentButton !== parseInt(event.target.innerText)) {
-  //     console.log('aa');
-  //     event.target.classList.remove('btn-active');
-  //   }
-  //   if (!isNaN(parseInt(event.target.innerText))) {
-  //     console.log('dd');
-  //     currentButton = parseInt(event.target.innerText);
-  //   }
-});
-
 buttonSetting();
+
+const getPosts = async (startIndex, endIndex) => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    if (response.ok) {
+      const data = await response.json();
+      const currentPosts = data.slice(startIndex, endIndex);
+      console.log(data);
+      currentPosts.forEach((val) => {
+        postsContainer.insertAdjacentHTML(
+          'beforeend',
+          `
+            <li>${val.id}</li>
+        `
+        );
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+getPosts(startIndex, endIndex);
+
+paginationContainer.addEventListener('click', (event) => {
+  if (!isNaN(parseInt(event.target.innerText))) {
+    while (postsContainer.firstChild) {
+      postsContainer.removeChild(postsContainer.firstChild);
+    }
+    console.log('dd');
+    page = parseInt(event.target.innerText);
+    startIndex = (page - 1) * limit;
+    endIndex = page * limit;
+    getPosts(startIndex, endIndex);
+  }
+});
