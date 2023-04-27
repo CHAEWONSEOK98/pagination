@@ -14,16 +14,19 @@
 }
 
 .posts-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   margin: 0 auto;
   margin-bottom: 5rem;
   width: 800px;
   height: 80vh;
-  border: 1px solid black;
   overflow-y: auto;
 }
 
 .posts-container li {
-  border: 1px solid orange;
+  font-size: x-large;
+  font-weight: bold;
   margin: 0 auto;
   height: 2rem;
   padding: 10px;
