@@ -116,9 +116,19 @@ paginationContainer.addEventListener('click', (event) => {
   }
   if (event.target.innerText === '<<') {
     postViewer((currentPage = 1), startIndex, endIndex);
+    while (paginationContainer.firstChild) {
+      paginationContainer.removeChild(paginationContainer.firstChild);
+    }
+    let newResult = pageButtons.slice(0, 5);
+    newButtonViewer(newResult);
   }
   if (event.target.innerText === '>>') {
     postViewer((currentPage = totalPages), startIndex, endIndex);
+    while (paginationContainer.firstChild) {
+      paginationContainer.removeChild(paginationContainer.firstChild);
+    }
+    let newResult = pageButtons.slice(-5);
+    newButtonViewer(newResult);
   }
   if (event.target.innerText === '>') {
     postViewer(
@@ -129,24 +139,23 @@ paginationContainer.addEventListener('click', (event) => {
     while (paginationContainer.firstChild) {
       paginationContainer.removeChild(paginationContainer.firstChild);
     }
-    // startIndex = (currentPage - 1) * limit;
-    // endIndex = currentPage * limit;
+
     let newResult = pageButtons.slice(currentPage - 1, currentPage + 4);
     console.log(startIndex, endIndex, currentPage, pageButtons, newResult);
     newButtonViewer(newResult);
   }
   if (event.target.innerText === '<') {
     postViewer(
-      (currentPage = Math.floor(currentPage / 5) * limit - 4),
+      (currentPage = Math.ceil(currentPage / 5) * limit - 5), // 10 / 5 * 5 - 4 = 6
       startIndex,
       endIndex
     );
     while (paginationContainer.firstChild) {
       paginationContainer.removeChild(paginationContainer.firstChild);
     }
-    // startIndex = (currentPage - 1) * limit;
-    // endIndex = currentPage * limit;
-    let newResult = pageButtons.slice(currentPage - 1, currentPage + 4);
+
+    let newResult = pageButtons.slice(currentPage - limit, currentPage);
+
     console.log(startIndex, endIndex, currentPage, pageButtons, newResult);
     newButtonViewer(newResult);
   }
