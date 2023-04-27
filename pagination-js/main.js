@@ -19,19 +19,15 @@ let startIndex = (currentPage - 1) * limit;
 let endIndex = currentPage * limit;
 let result = pageButtons.slice(startIndex, endIndex);
 
-// if (endIndex > 5) {
-// }
-
-// if (endIndex < totalPages - 5) {
-// }
-
 const buttonViewer = () => {
-  const first = document.createElement('button');
-  const prev = document.createElement('button');
-  first.innerText = '<<';
-  prev.innerText = '<';
-  paginationContainer.appendChild(first);
-  paginationContainer.appendChild(prev);
+  if (currentPage > 5) {
+    const first = document.createElement('button');
+    const prev = document.createElement('button');
+    first.innerText = '<<';
+    prev.innerText = '<';
+    paginationContainer.appendChild(first);
+    paginationContainer.appendChild(prev);
+  }
 
   result.map((element, index) => {
     let pageButton = document.createElement('button');
@@ -51,12 +47,14 @@ const buttonViewer = () => {
 buttonViewer();
 
 const newButtonViewer = (newResult) => {
-  const first = document.createElement('button');
-  const prev = document.createElement('button');
-  first.innerText = '<<';
-  prev.innerText = '<';
-  paginationContainer.appendChild(first);
-  paginationContainer.appendChild(prev);
+  if (currentPage > limit) {
+    const first = document.createElement('button');
+    const prev = document.createElement('button');
+    first.innerText = '<<';
+    prev.innerText = '<';
+    paginationContainer.appendChild(first);
+    paginationContainer.appendChild(prev);
+  }
 
   newResult.map((element, index) => {
     let pageButton = document.createElement('button');
@@ -65,12 +63,14 @@ const newButtonViewer = (newResult) => {
     paginationContainer.appendChild(pageButton);
   });
 
-  const last = document.createElement('button');
-  const next = document.createElement('button');
-  next.innerText = '>';
-  last.innerText = '>>';
-  paginationContainer.appendChild(next);
-  paginationContainer.appendChild(last);
+  if (currentPage <= totalPages - limit) {
+    const last = document.createElement('button');
+    const next = document.createElement('button');
+    next.innerText = '>';
+    last.innerText = '>>';
+    paginationContainer.appendChild(next);
+    paginationContainer.appendChild(last);
+  }
 };
 
 const getPosts = async (startIndex, endIndex) => {
@@ -146,7 +146,7 @@ paginationContainer.addEventListener('click', (event) => {
   }
   if (event.target.innerText === '<') {
     postViewer(
-      (currentPage = Math.ceil(currentPage / 5) * limit - 5), // 10 / 5 * 5 - 4 = 6
+      (currentPage = Math.ceil(currentPage / 5) * limit - 5),
       startIndex,
       endIndex
     );
