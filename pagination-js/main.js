@@ -44,8 +44,6 @@ const buttonViewer = () => {
   paginationContainer.appendChild(last);
 };
 
-buttonViewer();
-
 const newButtonViewer = (newResult) => {
   if (currentPage > limit) {
     const first = document.createElement('button');
@@ -84,7 +82,7 @@ const getPosts = async (startIndex, endIndex) => {
         postsContainer.insertAdjacentHTML(
           'beforeend',
           `
-            <li>${val.id}</li>
+            <li>${val.id} ${val.title}</li>
         `
         );
       });
@@ -93,8 +91,6 @@ const getPosts = async (startIndex, endIndex) => {
     console.log(err);
   }
 };
-
-getPosts(startIndex, endIndex);
 
 const postViewer = (currentPage, startIndex, endIndex) => {
   while (postsContainer.firstChild) {
@@ -113,6 +109,19 @@ paginationContainer.addEventListener('click', (event) => {
       startIndex,
       endIndex
     );
+    0;
+
+    console.log(event.target.parentNode.childNodes);
+
+    for (let i = 0; i < event.target.parentNode.childNodes.length; i++) {
+      event.target.parentNode.childNodes[i].classList.remove(
+        'currentButtonActive'
+      );
+    }
+
+    event.target.classList.add('currentButtonActive');
+    // event.target.setAttribute('class', 'currentButtonActive');
+    console.log(event.target);
   }
   if (event.target.innerText === '<<') {
     postViewer((currentPage = 1), startIndex, endIndex);
@@ -141,7 +150,7 @@ paginationContainer.addEventListener('click', (event) => {
     }
 
     let newResult = pageButtons.slice(currentPage - 1, currentPage + 4);
-    console.log(startIndex, endIndex, currentPage, pageButtons, newResult);
+    console.log(startIndex, endIndex, currentPage, newResult);
     newButtonViewer(newResult);
   }
   if (event.target.innerText === '<') {
@@ -156,7 +165,16 @@ paginationContainer.addEventListener('click', (event) => {
 
     let newResult = pageButtons.slice(currentPage - limit, currentPage);
 
-    console.log(startIndex, endIndex, currentPage, pageButtons, newResult);
+    console.log(startIndex, endIndex, currentPage, newResult);
     newButtonViewer(newResult);
   }
+});
+
+const init = () => {
+  buttonViewer();
+  getPosts(startIndex, endIndex);
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
 });
